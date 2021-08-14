@@ -4,16 +4,25 @@ import java.util.Scanner;
 
 public class TikTacToeGame {
     static char PLAYER, COMPUTER;
-    static char[] board = new char[10];
-    static int User;
+    private static char[] board = new char[10];
+    static int User, computerNo;
+    static int turn =1, flag =0;
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
         createBoard();
         choosingXorO();
-        currentBoard();
-        userCall();
-        userMove();
+        showBoard();
+        tossCoin();
+        while (flag==0){
+            if ((turn+1)%2==0){
+                currentBoard();
+                userCall();
+                userMove();
+                turn++;
+            }
+        }
+
     }
 
     private static void createBoard() {
@@ -24,20 +33,20 @@ public class TikTacToeGame {
     }
 
     private static void choosingXorO() {
-        Scanner s = new Scanner(System.in);
         System.out.println("Choose 1 for 'X' or Choose 2 for 'O' as your mark");
-        int option = s.nextInt();
+        int option = Utility.getUserInteger();
         switch (option) {
             case 1: PLAYER = 'X';
-                COMPUTER = 'O';
-                break;
+                       COMPUTER = 'O';
+                             break;
             case 2: PLAYER = 'O';
-                COMPUTER = 'X';
-                break;
+                      COMPUTER = 'X';
+                              break;
             default:
                 System.out.println("Your input is invalid");
                 choosingXorO();
         }
+        System.out.println("\n PLAYER: '"+PLAYER+"' and COMPUTER: '"+COMPUTER+"'");
     }
 
     private static void showBoard() {
@@ -57,9 +66,8 @@ public class TikTacToeGame {
         showBoard();
     }
     private static void userCall() {
-        Scanner s = new Scanner(System.in);
         System.out.println("\nEnter a number from board to make the mark:\n");
-        User = s.nextInt();
+        User = Utility.getUserInteger();
         if (User < 1 || User > 9) {
             currentBoard();
             System.out.println("Your input is Invalid");
@@ -75,5 +83,32 @@ public class TikTacToeGame {
         } else {
             board[User]=PLAYER;
         }
+    }
+    private static void tossCoin() {
+        System.out.println("\nMaking a toss to check who plays first\nChoose 1 for Head or 2 for Tail");
+        int option = Utility.getUserInteger();;
+        if ( option==1 || option==2 ) {
+            int flip = Utility.getRandomInt(2)+1;
+            if (flip==1) {
+                System.out.println("\nBy tossing Coin it shows HEAD\n");
+            } else {
+                System.out.println("\nBy tossing Coin it shows TAIL\n");
+            }
+            if (flip == option) {
+                System.out.println("User will start the game\n");
+            } else {
+                System.out.println("Computer will start the game\n");
+                computerFirstTurn();
+            }
+        } else {
+            System.out.println("\nInvalid input ");
+            tossCoin();
+        }
+    }
+
+    public static void computerFirstTurn() {
+        computerNo = Utility.getRandomInt(9)+1;
+        board[computerNo]=PLAYER;
+        System.out.println("Computer chooses '"+computerNo+"' now user turn");
     }
 }
