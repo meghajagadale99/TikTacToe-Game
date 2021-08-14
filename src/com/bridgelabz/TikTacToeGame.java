@@ -13,6 +13,7 @@ public class TikTacToeGame {
         choosingXorO();
         currentBoard();
         userPlay();
+        Move();
     }
 
     private static char[] createBoard() {
@@ -108,6 +109,20 @@ public class TikTacToeGame {
                 break;
             default:
                 System.out.println("Invalid Move");
+        }
+        showBoard();
+    }
+
+    static void Move() {
+        boolean played = false;
+        while (!played) {
+            int playMove = (int) (Math.random() * 10) % 9 + 1;
+            if (playMove > 0 && playMove < 10) {
+                if (board[playMove] == ' ') {
+                    board[playMove] = COMPUTER;
+                    played = true;
+                }
+            }
         }
         showBoard();
     }
