@@ -3,50 +3,29 @@ package com.bridgelabz;
 import java.util.Scanner;
 
 public class TikTacToeGame {
+    static Scanner sc = new Scanner(System.in);
     static char PLAYER, COMPUTER;
-    private static char[] board = new char[10];
-    static int User, computerNo;
-    static int turn = 1, flag = 0;
+    static char[] board = new char[10];
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
         createBoard();
         choosingXorO();
-        showBoard();
-        tossCoin();
-        outerloop:
-        while (flag == 0) {
-            if ((turn + 1) % 2 == 0) {
-                currentBoard();
-                userCall();
-                userMove();
-                currentBoard();
-                flag = checkWin();
-                if (flag == 1) {
-                    System.out.println("Excellent! You are the winner");
-                    break outerloop;
-                }
-                flag = checkTie();
-                if (flag == 1) {
-                    System.out.println("Nice Play! It's Tie");
-                    break outerloop;
-                }
-                turn++;
-            }
-        }
-
+        currentBoard();
+        userPlay();
     }
 
-    private static void createBoard() {
-        board = new char[10];
-        for (int i = 1; i < 10; i++) {
-            board[i] = ' ';
+    private static char[] createBoard() {
+        for (int index = 1; index < board.length; index++) {
+            board[index] = ' ';
         }
+        return board;
     }
 
     private static void choosingXorO() {
+        Scanner s = new Scanner(System.in);
         System.out.println("Choose 1 for 'X' or Choose 2 for 'O' as your mark");
-        int option = Utility.getUserInteger();
+        int option = s.nextInt();
         switch (option) {
             case 1:
                 PLAYER = 'X';
@@ -60,7 +39,6 @@ public class TikTacToeGame {
                 System.out.println("Your input is invalid");
                 choosingXorO();
         }
-        System.out.println("\n PLAYER: '" + PLAYER + "' and COMPUTER: '" + COMPUTER + "'");
     }
 
     private static void showBoard() {
@@ -71,111 +49,66 @@ public class TikTacToeGame {
         System.out.println("  " + board[7] + " | " + board[8] + " | " + board[9] + " \n");
     }
 
-    private static void currentBoard() {
-        for (int i = 1; i < 10; i++) {
-            if (board[i] != 'X' && board[i] != 'O') {
-                board[i] = (char) (i + '0');
+   private static void currentBoard() {
+       for (int i = 1; i < 10; i++) {
+           if (board[i] != 'X' && board[i] != 'O') {
+               board[i] = (char) (i + '0');
             }
         }
         showBoard();
     }
-
-    private static void userCall() {
-        System.out.println("\nEnter a number from board to make the mark:\n");
-        User = Utility.getUserInteger();
-        if (User < 1 || User > 9) {
-            currentBoard();
-            System.out.println("Your input is Invalid");
-            userCall();
-        }
-    }
-
-    private static void userMove() {
-        if (board[User] == 'X' || board[User] == 'O') {
-            currentBoard();
-            System.out.println("Number which is selected is not free");
-            userCall();
-            userMove();
-        } else {
-            board[User] = PLAYER;
-        }
-    }
-
-    private static void tossCoin() {
-        System.out.println("\nMaking a toss to check who plays first\nChoose 1 for Head or 2 for Tail");
-        int option = Utility.getUserInteger();
-        ;
-        if (option == 1 || option == 2) {
-            int flip = Utility.getRandomInt(2) + 1;
-            if (flip == 1) {
-                System.out.println("\nBy tossing Coin it shows HEAD\n");
-            } else {
-                System.out.println("\nBy tossing Coin it shows TAIL\n");
-            }
-            if (flip == option) {
-                System.out.println("User will start the game\n");
-            } else {
-                System.out.println("Computer will start the game\n");
-                computerFirstTurn();
-            }
-        } else {
-            System.out.println("\nInvalid input ");
-            tossCoin();
-        }
-    }
-
-    public static void computerFirstTurn() {
-        computerNo = Utility.getRandomInt(9) + 1;
-        board[computerNo] = PLAYER;
-        System.out.println("Computer chooses '" + computerNo + "' now user turn");
-    }
-
-    public static int checkWin() {
-        for (int i = 1; i < 9; i++) {
-            int win[] = winArray(i);
-            if (board[win[0]] == board[win[1]] && board[win[1]] == board[win[2]]) {
-                flag = 1;
-            }
-        }
-        return flag;
-    }
-
-    private static int[] winArray(int number) {
-        if (number == 1) {
-            int arrayWin[] = {1, 2, 3};
-            return arrayWin;
-        } else if (number == 2) {
-            int arrayWin[] = {4, 5, 6};
-            return arrayWin;
-        } else if (number == 3) {
-            int arrayWin[] = {7, 8, 9};
-            return arrayWin;
-        } else if (number == 4) {
-            int arrayWin[] = {1, 4, 7};
-            return arrayWin;
-        } else if (number == 5) {
-            int arrayWin[] = {2, 5, 8};
-            return arrayWin;
-        } else if (number == 6) {
-            int arrayWin[] = {3, 6, 9};
-            return arrayWin;
-        } else if (number == 7) {
-            int arrayWin[] = {1, 5, 9};
-            return arrayWin;
-        } else {
-            int arrayWin[] = {3, 5, 7};
-            return arrayWin;
-        }
-    }
-
-    public static int checkTie() {
-        for (int i = 1; i < 10; i++) {
-            if (board[i] == 'X' || board[i] == 'O') {
-                if (i == 9) {
-                    flag = 1;
+    static void userPlay() {
+        System.out.println("Enter board index(1-9) to set your game move ");
+        int userMove = sc.nextInt();
+        switch (userMove) {
+            case 1:
+               if (board[1] == ' ') {
+                   board[1] = PLAYER;
                 }
-            }
+               break;
+           case 2:
+               if (board[2] == ' ') {
+                   board[2] = PLAYER;
+                }
+                break;
+           case 3:
+               if (board[3] == ' ') {
+                    board[3] = PLAYER;
+                }
+              break;
+            case 4:
+                if (board[4] == ' ') {
+                    board[4] = PLAYER;
+                }
+                break;
+            case 5:
+                if (board[5] == ' ') {
+                    board[5] = PLAYER;
+                }
+                break;
+            case 6:
+                if (board[6] == ' ') {
+                    board[6] = PLAYER;
+                }
+                break;
+            case 7:
+                if (board[7] == ' ') {
+                    board[7] = PLAYER;
+                }
+                break;
+            case 8:
+                if (board[8] == ' ') {
+                    board[8] = PLAYER;
+                }
+                break;
+            case 9:
+                if (board[9] == ' ') {
+                    board[9] = PLAYER;
+                }
+                break;
+            default:
+                System.out.println("Invalid Move");
         }
-        return flag;
+        showBoard();
     }
 }
