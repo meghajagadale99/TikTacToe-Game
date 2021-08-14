@@ -13,6 +13,7 @@ public class TikTacToeGame {
         choosingXorO();
         currentBoard();
         userCall();
+        userMove();
     }
 
     private static void createBoard() {
@@ -63,6 +64,16 @@ public class TikTacToeGame {
             currentBoard();
             System.out.println("Your input is Invalid");
             userCall();
+        }
+    }
+    private static void userMove() {
+        if(board[User]=='X' || board[User]=='O') {
+            currentBoard();
+            System.out.println("Number which is selected is not free");
+            userCall();
+            userMove();
+        } else {
+            board[User]=PLAYER;
         }
     }
 }
