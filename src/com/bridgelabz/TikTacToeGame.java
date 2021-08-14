@@ -5,12 +5,14 @@ import java.util.Scanner;
 public class TikTacToeGame {
     static char PLAYER, COMPUTER;
     static char[] board = new char[10];
+    static int User;
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
         createBoard();
         choosingXorO();
         currentBoard();
+        userCall();
     }
 
     private static void createBoard() {
@@ -52,5 +54,15 @@ public class TikTacToeGame {
             }
         }
         showBoard();
+    }
+    private static void userCall() {
+        Scanner s = new Scanner(System.in);
+        System.out.println("\nEnter a number from board to make the mark:\n");
+        User = s.nextInt();
+        if (User < 1 || User > 9) {
+            currentBoard();
+            System.out.println("Your input is Invalid");
+            userCall();
+        }
     }
 }
