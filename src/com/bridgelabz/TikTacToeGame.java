@@ -6,14 +6,23 @@ public class TikTacToeGame {
     static Scanner sc = new Scanner(System.in);
     static char PLAYER, COMPUTER;
     static char[] board = new char[10];
+    static int userNumber ,  computerNumber;
+    static int turn = 1, flag = 0;
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
         createBoard();
+        showBoard();
         choosingXorO();
-        currentBoard();
-        userPlay();
-        Move();
+        toss();
+        while (flag == 0) {
+            if ((turn + 1) % 2 == 0) {
+                userPlay();
+                currentBoard();
+                Move();
+                turn++;
+            }
+        }
     }
 
     private static char[] createBoard() {
@@ -110,7 +119,7 @@ public class TikTacToeGame {
             default:
                 System.out.println("Invalid Move");
         }
-        showBoard();
+        userPlay();
     }
 
     static void Move() {
@@ -121,9 +130,34 @@ public class TikTacToeGame {
                 if (board[playMove] == ' ') {
                     board[playMove] = COMPUTER;
                     played = true;
+                    Move();
+                    userPlay();
                 }
             }
         }
         showBoard();
+    }
+
+    static void toss() {
+        int turn = (int) Math.floor(Math.random() * 10) % 2;
+        System.out.println("To start the game enter 1 to play the toss: ");
+        Scanner sc = new Scanner(System.in);
+        int playerToss = sc.nextInt();
+        if (playerToss == turn) {
+            System.out.println("Player won the toss, enter your first Move");
+            userPlay();
+            Move();
+
+        } else {
+            System.out.println("Computer won the toss, enter your first move");
+            toss();
+
+        }
+
+    }
+    public static void computerFirstTurn() {
+        computerNumber = Utility.getRandomInt(9)+1;
+        board[computerNumber]=COMPUTER;
+        System.out.println("Computer chooses '"+computerNumber+"' now user turn");
     }
 }
