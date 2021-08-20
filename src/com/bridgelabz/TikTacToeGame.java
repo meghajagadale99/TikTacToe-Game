@@ -15,11 +15,24 @@ public class TikTacToeGame {
         showBoard();
         choosingXorO();
         toss();
+        outerloop:
         while (flag == 0) {
             if ((turn + 1) % 2 == 0) {
+                createBoard();
                 userPlay();
                 currentBoard();
                 Move();
+                flag=checkWin();
+                if (flag==1) {
+                    System.out.println("Excellent! You are the winner");
+                    break outerloop;
+                }
+                //to check whether game is tie or not
+                flag=checkTie();
+                if (flag==1) {
+                    System.out.println("Nice Play! It's Tie");;
+                    break outerloop;
+                }
                 turn++;
             }
         }
@@ -155,9 +168,59 @@ public class TikTacToeGame {
         }
 
     }
+
+
     public static void computerFirstTurn() {
         computerNumber = Utility.getRandomInt(9)+1;
         board[computerNumber]=COMPUTER;
         System.out.println("Computer chooses '"+computerNumber+"' now user turn");
     }
+    public static int checkWin() {
+        for (int i=1;i<9;i++) {
+            int win[]= winArray(i);
+            if (board[win[0]]==board[win[1]]&&board[win[1]]==board[win[2]]) {
+                flag=1;
+            }
+        }
+        return flag;
+    }
+
+    private static int[] winArray(int number) {
+        if (number==1) {
+            int arrayWin[]= {1,2,3};
+            return arrayWin;
+        } else if (number==2) {
+            int arrayWin[]= {4,5,6};
+            return arrayWin;
+        } else if (number==3) {
+            int arrayWin[]= {7,8,9};
+            return arrayWin;
+        } else if (number==4) {
+            int arrayWin[]= {1,4,7};
+            return arrayWin;
+        } else if (number==5) {
+            int arrayWin[]= {2,5,8};
+            return arrayWin;
+        } else if (number==6) {
+            int arrayWin[]= {3,6,9};
+            return arrayWin;
+        } else if (number==7) {
+            int arrayWin[]= {1,5,9};
+            return arrayWin;
+        } else {
+            int arrayWin[]= {3,5,7};
+            return arrayWin;
+        }
+    }
+    public static int checkTie() {
+        for (int i=1; i<10; i++) {
+            if (board[i]=='X' || board[i]=='O') {
+                if (i==9) {
+                    flag=1;
+                }
+            }
+        }
+        return flag;
+    }
+
 }
