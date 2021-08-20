@@ -59,6 +59,7 @@ public class TikTacToeGame {
                 }
             }
         }
+        gameAgain();
     }
 
 
@@ -283,6 +284,16 @@ public class TikTacToeGame {
             }
         }
         return flag;
+    }
+    private static void gameAgain() {
+        System.out.println("\n play again. 1) Restart 2) Exit");
+        int option=Utility.getUserInteger();
+        if (option==1) {
+            String[] args = { };
+            main(args);
+        } else {
+            System.exit(1);
+        }
     }
 
 }
