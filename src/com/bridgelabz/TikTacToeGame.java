@@ -45,6 +45,12 @@ public class TikTacToeGame {
                     flag=0;
                     return;
                 }
+                flag=computerCorner();
+                if (flag==1) {
+                    turn++;
+                    flag=0;
+                    return;
+                }
             }
             }
         }
@@ -230,6 +236,18 @@ public class TikTacToeGame {
             currentBoard();
             System.out.println("I won. Better Luck next time");
             flag=1;
+        }
+        return flag;
+    }
+    private static int computerCorner() {
+        int corner[]={7,3,1,9};
+        for(int i=0;i<4;i++) {
+            if(board[corner[i]] != 'X' && board[corner[i]] != 'O') {
+                board[corner[i]]=COMPUTER;
+                System.out.println("Cmputer choice is '"+corner[i]+"'");
+                flag=1;
+                break;
+            }
         }
         return flag;
     }
