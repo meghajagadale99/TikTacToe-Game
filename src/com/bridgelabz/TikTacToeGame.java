@@ -6,7 +6,7 @@ public class TikTacToeGame {
     static Scanner sc = new Scanner(System.in);
     static char PLAYER, COMPUTER;
     static char[] board = new char[10];
-    static int userNumber , computerNumber;
+    static int userNumber, computerNumber;
     static int turn = 1, flag = 0;
 
     public static void main(String[] args) {
@@ -39,27 +39,29 @@ public class TikTacToeGame {
                 //To check whether computer is winning or not
                 flag = computerWin();
                 if (flag == 1) break outerloop;
-                flag=computerBlock();
-                if (flag==1) {
+                flag = computerBlock();
+                if (flag == 1) {
                     turn++;
-                    flag=0;
+                    flag = 0;
                     return;
                 }
-                flag=computerCorner();
-                if (flag==1) {
+                flag = computerCorner();
+                if (flag == 1) {
                     turn++;
-                    flag=0;
+                    flag = 0;
                     return;
                 }
-                flag=computerCenterSide();
-                if (flag==1) {
+                flag = computerCenterSide();
+                if (flag == 1) {
                     turn++;
-                    flag=0;
+                    flag = 0;
                     return;
                 }
-            }
             }
         }
+    }
+
+
 
 
     private static char[] createBoard() {
@@ -240,21 +242,14 @@ public class TikTacToeGame {
             board[index]= COMPUTER;
             System.out.println("My choice is '"+index+"'");
             currentBoard();
-            System.out.println("I won. Better Luck next time");
+            System.out.println("computer won. Better Luck next time");
             flag=1;
         }
         return flag;
     }
     private static int computerCorner() {
-        int corner[]={7,3,1,9};
-        for(int i=0;i<4;i++) {
-            if(board[corner[i]] != 'X' && board[corner[i]] != 'O') {
-                board[corner[i]]=COMPUTER;
-                System.out.println("Cmputer choice is '"+corner[i]+"'");
-                flag=1;
-                break;
-            }
-        }
+        int corner[]={8,4,2,7};
+        flag=computerOption(corner);
         return flag;
     }
 
@@ -265,14 +260,7 @@ public class TikTacToeGame {
             flag=1;
         } else {
             int side[] = {2,6,8,4};
-            for(int j=0;j<4;j++) {
-                if(board[side[j]] != 'X' && board[side[j]] != 'O') {
-                    board[side[j]]=COMPUTER;
-                    System.out.println("My choice is '"+side[j]+"'");
-                    flag=1;
-                    break;
-                }
-            }
+            flag=computerOption(side);
         }
         return flag;
     }
@@ -282,6 +270,17 @@ public class TikTacToeGame {
             board[index]=COMPUTER;
             System.out.println("Computer goes for '"+index+"' to block User");
             flag=1;
+        }
+        return flag;
+    }
+    private static int computerOption(int[] array) {
+        for(int j=0;j<4;j++) {
+            if(board[array[j]] != 'X' && board[array[j]] != 'O') {
+                board[array[j]]=COMPUTER;
+                System.out.println("Computer choice is '"+array[j]+"'");
+                flag=1;
+                break;
+            }
         }
         return flag;
     }
