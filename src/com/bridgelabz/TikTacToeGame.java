@@ -9,6 +9,7 @@ public class TikTacToeGame {
             board[i] = ' ';
         }
     }
+
     public static void chooseLetter(){
         System.out.println("Choose letter 'X' or 'O' (in Caps) : ");
         Scanner sc = new Scanner(System.in);
@@ -24,11 +25,22 @@ public class TikTacToeGame {
             System.out.println("User Symbol : "+userSymbol+" ; Comp Symbol : "+compSymbol);
         }
     }
-
+    static void printBoard()
+    {
+        System.out.println("|---|---|---|");
+        System.out.println("| " + board[1] + " | "+ board[2] + " | " + board[3]+ " |");
+        System.out.println("|-----------|");
+        System.out.println("| " + board[4] + " | "+ board[5] + " | " + board[6] + " |");
+        System.out.println("|-----------|");
+        System.out.println("| " + board[7] + " | "+ board[8] + " | " + board[9] + " |");
+        System.out.println("|---|---|---|");
+    }
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
         generateBoard();
         chooseLetter();
+        printBoard();
     }
+
 
 }
