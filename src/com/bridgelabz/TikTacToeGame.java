@@ -39,9 +39,16 @@ public class TikTacToeGame {
                 //To check whether computer is winning or not
                 flag = computerWin();
                 if (flag == 1) break outerloop;
+                flag=computerBlock();
+                if (flag==1) {
+                    turn++;
+                    flag=0;
+                    return;
+                }
+            }
             }
         }
-    }
+
 
     private static char[] createBoard() {
         for (int index = 1; index < board.length; index++) {
@@ -222,6 +229,15 @@ public class TikTacToeGame {
             System.out.println("My choice is '"+index+"'");
             currentBoard();
             System.out.println("I won. Better Luck next time");
+            flag=1;
+        }
+        return flag;
+    }
+    private static int computerBlock() {
+        int index=winBlock(PLAYER,COMPUTER);
+        if (index!=0) {
+            board[index]=COMPUTER;
+            System.out.println("Computer goes for '"+index+"' to block User");
             flag=1;
         }
         return flag;
