@@ -6,7 +6,7 @@ public class TikTacToeGame {
     static Scanner sc = new Scanner(System.in);
     static char PLAYER, COMPUTER;
     static char[] board = new char[10];
-    static int userNumber ,  computerNumber;
+    static int userNumber , computerNumber;
     static int turn = 1, flag = 0;
 
     public static void main(String[] args) {
@@ -22,18 +22,23 @@ public class TikTacToeGame {
                 userPlay();
                 currentBoard();
                 Move();
-                flag=checkWin();
-                if (flag==1) {
+                flag = checkWin();
+                if (flag == 1) {
                     System.out.println("Excellent! You are the winner");
                     break outerloop;
                 }
                 //to check whether game is tie or not
-                flag=checkTie();
-                if (flag==1) {
-                    System.out.println("Nice Play! It's Tie");;
+                flag = checkTie();
+                if (flag == 1) {
+                    System.out.println("Nice Play! It's Tie");
+                    ;
                     break outerloop;
                 }
                 turn++;
+            } else {
+                //To check whether computer is winning or not
+                flag = computerWin();
+                if (flag == 1) break outerloop;
             }
         }
     }
@@ -177,7 +182,7 @@ public class TikTacToeGame {
     }
     public static int checkWin() {
         for (int i=1;i<9;i++) {
-            int win[]= winArray(i);
+            int win[]= Utility.winArray(i);
             if (board[win[0]]==board[win[1]]&&board[win[1]]==board[win[2]]) {
                 flag=1;
             }
@@ -185,33 +190,6 @@ public class TikTacToeGame {
         return flag;
     }
 
-    private static int[] winArray(int number) {
-        if (number==1) {
-            int arrayWin[]= {1,2,3};
-            return arrayWin;
-        } else if (number==2) {
-            int arrayWin[]= {4,5,6};
-            return arrayWin;
-        } else if (number==3) {
-            int arrayWin[]= {7,8,9};
-            return arrayWin;
-        } else if (number==4) {
-            int arrayWin[]= {1,4,7};
-            return arrayWin;
-        } else if (number==5) {
-            int arrayWin[]= {2,5,8};
-            return arrayWin;
-        } else if (number==6) {
-            int arrayWin[]= {3,6,9};
-            return arrayWin;
-        } else if (number==7) {
-            int arrayWin[]= {1,5,9};
-            return arrayWin;
-        } else {
-            int arrayWin[]= {3,5,7};
-            return arrayWin;
-        }
-    }
     public static int checkTie() {
         for (int i=1; i<10; i++) {
             if (board[i]=='X' || board[i]=='O') {
@@ -219,6 +197,32 @@ public class TikTacToeGame {
                     flag=1;
                 }
             }
+        }
+        return flag;
+    }
+    private static int winBlock(char playerMark, char opponentMark) {
+        int winBlock[] = new int[3];
+        for (int i=1;i<9;i++) {
+            winBlock=Utility.winArray(i);
+        }
+        if (board[winBlock[0]]==board[winBlock[1]]&&board[winBlock[0]]==playerMark&&board[winBlock[2]]!=opponentMark) {
+            flag=winBlock[2];
+        } else if (board[winBlock[0]]==board[winBlock[2]]&&board[winBlock[2]]==playerMark&&board[winBlock[1]]!=opponentMark) {
+            flag=winBlock[1];
+        } else if (board[winBlock[1]]==board[winBlock[2]]&&board[winBlock[2]]==playerMark&&board[winBlock[0]]!=opponentMark) {
+            flag=winBlock[0];
+        }
+        return flag;
+    }
+
+    private static int computerWin() {
+        int index=winBlock(COMPUTER,PLAYER);
+        if (index!=0) {
+            board[index]= COMPUTER;
+            System.out.println("My choice is '"+index+"'");
+            currentBoard();
+            System.out.println("I won. Better Luck next time");
+            flag=1;
         }
         return flag;
     }
