@@ -2,6 +2,7 @@ package com.bridgelabz;
 import java.util.Scanner;
 public class TikTacToeGame {
 
+
     static char userSymbol, compSymbol;
     private static char[] board;
     static int userInput;
@@ -214,6 +215,16 @@ public class TikTacToeGame {
         }
         return flag;
     }
+    private static void gameAgain() {
+        System.out.println("Wanna play again. 1) Restart 2) Exit");
+        int option=Utility.getUserInteger();
+        if (option==1) {
+            String[] args = { };
+            main(args);
+        } else {
+            System.exit(1);
+        }
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
@@ -275,6 +286,7 @@ public class TikTacToeGame {
                 }
             }
         }
+        gameAgain();
     }
 
 }
