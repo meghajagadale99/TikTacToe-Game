@@ -1,12 +1,10 @@
 package com.bridgelabz;
-
 import java.util.Scanner;
-
 public class TikTacToeGame {
-
     static char userSymbol, compSymbol;
     private static char[] board;
     static int userInput;
+    static int turn = 1, flag = 0;
 
 
     private static void generateBoard() {
@@ -67,6 +65,35 @@ public class TikTacToeGame {
             board[userInput]=userSymbol;
         }
     }
+    private static void tossingCoin() {
+        System.out.println(" Tossing Coin to decide first move \n Choose 1 : Head and 2 :Tail :");
+        Scanner sc =new Scanner(System.in);
+        int UserToss=sc.nextInt();
+
+        if ( UserToss==1 || UserToss==2 ) {
+            int flip = (int) Math.floor(Math.random() * 10) % 2;
+
+            if (flip==1) {
+                System.out.println("\nBy tossing Coin it shows HEAD\n");
+            } else {
+                System.out.println("\nBy tossing Coin it shows TAIL\n");
+            }
+            if (flip == UserToss) {
+                System.out.println("User will start the game\n");
+            } else {
+                System.out.println("Computer will start the game\n");
+                computerFirstTurn();
+            }
+        } else {
+            System.out.println("\nInvalid input ");
+            tossingCoin();
+        }
+    }
+    public static void computerFirstTurn() {
+        int CompInput = (int) Math.floor(Math.random() * 10) % 9;
+        board[CompInput]=compSymbol;
+        System.out.println("Computer choses '"+CompInput+"' now user turn");
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
@@ -76,7 +103,16 @@ public class TikTacToeGame {
         currentBoard();
         userMove();
         userMoveCheck();
+        while(flag==0) {
+            if((turn+1)%2==0) {
+                //for display the current board
+                currentBoard();
+                //for calling the user for number
+                userMove();
+                //for making the mark on user number
+                userMoveCheck();
+                turn++;
+            }
+        }
     }
-
-
 }
