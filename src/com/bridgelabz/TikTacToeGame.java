@@ -1,6 +1,7 @@
 package com.bridgelabz;
 import java.util.Scanner;
 public class TikTacToeGame {
+
     static char userSymbol, compSymbol;
     private static char[] board;
     static int userInput;
@@ -94,6 +95,52 @@ public class TikTacToeGame {
         board[CompInput]=compSymbol;
         System.out.println("Computer choses '"+CompInput+"' now user turn");
     }
+    public static int winnerCheck() {
+        for (int i=1;i<9;i++) {
+            int win[]= winningCond(i);
+            if (board[win[0]]==board[win[1]]&&board[win[1]]==board[win[2]]) {
+                flag=1;
+            }
+        }
+        return flag;
+    }
+    private static int[] winningCond(int number) {
+        if (number==1) {
+            int winningCond[]= {1,2,3};
+            return winningCond;
+        } else if (number==2) {
+            int winningCond[]= {4,5,6};
+            return winningCond;
+        } else if (number==3) {
+            int winningCond[]= {7,8,9};
+            return winningCond;
+        } else if (number==4) {
+            int winningCond[]= {1,4,7};
+            return winningCond;
+        } else if (number==5) {
+            int winningCond[]= {2,5,8};
+            return winningCond;
+        } else if (number==6) {
+            int winningCond[]= {3,6,9};
+            return winningCond;
+        } else if (number==7) {
+            int winningCond[]= {1,5,9};
+            return winningCond;
+        } else {
+            int winningCond[]= {3,5,7};
+            return winningCond;
+        }
+    }
+    public static int checkTie() {
+        for (int i=1; i<10; i++) {
+            if (board[i]=='X' || board[i]=='O') {
+                if (i==9) {
+                    flag=1;
+                }
+            }
+        }
+        return flag;
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
@@ -103,6 +150,8 @@ public class TikTacToeGame {
         currentBoard();
         userMove();
         userMoveCheck();
+        tossingCoin();
+        outerloop:
         while(flag==0) {
             if((turn+1)%2==0) {
                 //for display the current board
@@ -111,8 +160,23 @@ public class TikTacToeGame {
                 userMove();
                 //for making the mark on user number
                 userMoveCheck();
+                //After user making move showing the board
+                currentBoard();
+                //to check whether user is winner or not
+                flag=winnerCheck();
+                if (flag==1) {
+                    System.out.println("Excellent! You are the winner");
+                    break outerloop;
+                }
+                //to check whether game is tie or not
+                flag=checkTie();
+                if (flag==1) {
+                    System.out.println("Nice Play! It's Tie");;
+                    break outerloop;
+                }
                 turn++;
             }
         }
     }
+
 }
