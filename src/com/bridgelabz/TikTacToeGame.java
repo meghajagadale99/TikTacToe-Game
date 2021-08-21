@@ -2,6 +2,7 @@ package com.bridgelabz;
 import java.util.Scanner;
 public class TikTacToeGame {
 
+
     static char userSymbol, compSymbol;
     private static char[] board;
     static int userInput;
@@ -141,6 +142,31 @@ public class TikTacToeGame {
         }
         return flag;
     }
+    private static int blocking(char userSymbol, char compSymbol) {
+        int winBlock[] = new int[3];
+        for (int i=1;i<9;i++) {
+            winBlock=Utility.winArray(i);
+        }
+        if (board[winBlock[0]]==board[winBlock[1]]&&board[winBlock[0]]==userSymbol&&board[winBlock[2]]!=compSymbol) {
+            flag=winBlock[2];
+        } else if (board[winBlock[0]]==board[winBlock[2]]&&board[winBlock[2]]==userSymbol&&board[winBlock[1]]!=compSymbol) {
+            flag=winBlock[1];
+        } else if (board[winBlock[1]]==board[winBlock[2]]&&board[winBlock[2]]==userSymbol&&board[winBlock[0]]!=compSymbol) {
+            flag=winBlock[0];
+        }
+        return flag;
+    }
+    private static int computerWin() {
+        int index=blocking(compSymbol,userSymbol);
+        if (index!=0) {
+            board[index]=compSymbol;
+            System.out.println("My choice is '"+index+"'");
+            currentBoard();
+            System.out.println("I won. Better Luck next time");
+            flag=1;
+        }
+        return flag;
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
@@ -175,8 +201,13 @@ public class TikTacToeGame {
                     break outerloop;
                 }
                 turn++;
+            } else {
+                //To check whether computer is winning or not
+                flag=computerWin();
+                if (flag==1) break outerloop;
             }
         }
     }
+
 
 }
