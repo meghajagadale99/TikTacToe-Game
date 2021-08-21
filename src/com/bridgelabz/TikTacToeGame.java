@@ -177,6 +177,18 @@ public class TikTacToeGame {
         }
         return flag;
     }
+    private static int cornerChoosen() {
+        int corner[]={7,3,1,9};
+        for(int i=0;i<4;i++) {
+            if(board[corner[i]] != 'X' && board[corner[i]] != 'O') {
+                board[corner[i]]=compSymbol;
+                System.out.println("Cmputer choice is '"+corner[i]+"'");
+                flag=1;
+                break;
+            }
+        }
+        return flag;
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
@@ -216,6 +228,12 @@ public class TikTacToeGame {
                 flag=computerWin();
                 if (flag==1) break outerloop;
                 flag=blockMove();
+                if (flag==1) {
+                    turn++;
+                    flag=0;
+                    return;
+                }
+                flag=cornerChoosen();
                 if (flag==1) {
                     turn++;
                     flag=0;
