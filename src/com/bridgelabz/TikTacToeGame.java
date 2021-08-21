@@ -2,8 +2,6 @@ package com.bridgelabz;
 import java.util.Scanner;
 public class TikTacToeGame {
 
-
-
     static char userSymbol, compSymbol;
     private static char[] board;
     static int userInput;
@@ -189,6 +187,24 @@ public class TikTacToeGame {
         }
         return flag;
     }
+    private static int compChooseCenter() {
+        if (board[5] != 'X' && board[5] != 'O') {
+            board[5]=compSymbol;
+            System.out.println("Computer choice is '5'");
+            flag=1;
+        } else {
+            int side[] = {2,6,8,4};
+            for(int j=0;j<4;j++) {
+                if(board[side[j]] != 'X' && board[side[j]] != 'O') {
+                    board[side[j]]=compSymbol;
+                    System.out.println("My choice is '"+side[j]+"'");
+                    flag=1;
+                    break;
+                }
+            }
+        }
+        return flag;
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
@@ -239,8 +255,15 @@ public class TikTacToeGame {
                     flag=0;
                     return;
                 }
+                flag=compChooseCenter();
+                if (flag==1) {
+                    turn++;
+                    flag=0;
+                    return;
+                }
             }
         }
     }
+
 
 }
