@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class TikTacToeGame {
 
 
+
     static char userSymbol, compSymbol;
     private static char[] board;
     static int userInput;
@@ -167,6 +168,15 @@ public class TikTacToeGame {
         }
         return flag;
     }
+    private static int blockMove() {
+        int index=blocking(userSymbol,compSymbol);
+        if (index!=0) {
+            board[index]=compSymbol;
+            System.out.println("Computer goes for '"+index+"' to block User");
+            flag=1;
+        }
+        return flag;
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
@@ -205,9 +215,14 @@ public class TikTacToeGame {
                 //To check whether computer is winning or not
                 flag=computerWin();
                 if (flag==1) break outerloop;
+                flag=blockMove();
+                if (flag==1) {
+                    turn++;
+                    flag=0;
+                    return;
+                }
             }
         }
     }
-
 
 }
