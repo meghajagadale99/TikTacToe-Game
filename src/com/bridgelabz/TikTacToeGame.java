@@ -187,6 +187,11 @@ public class TikTacToeGame {
         }
         return flag;
     }
+    private static int compCorner() {
+        int corner[]={7,3,1,9};
+        flag=computerOption(corner);
+        return flag;
+    }
     private static int compChooseCenter() {
         if (board[5] != 'X' && board[5] != 'O') {
             board[5]=compSymbol;
@@ -194,13 +199,17 @@ public class TikTacToeGame {
             flag=1;
         } else {
             int side[] = {2,6,8,4};
-            for(int j=0;j<4;j++) {
-                if(board[side[j]] != 'X' && board[side[j]] != 'O') {
-                    board[side[j]]=compSymbol;
-                    System.out.println("My choice is '"+side[j]+"'");
-                    flag=1;
-                    break;
-                }
+            flag=computerOption(side);
+        }
+        return flag;
+    }
+    private static int computerOption(int[] array) {
+        for(int j=0;j<4;j++) {
+            if(board[array[j]] != 'X' && board[array[j]] != 'O') {
+                board[array[j]]=compSymbol;
+                System.out.println("Computer choice is '"+array[j]+"'");
+                flag=1;
+                break;
             }
         }
         return flag;
@@ -239,31 +248,33 @@ public class TikTacToeGame {
                     break outerloop;
                 }
                 turn++;
-            } else {
-                //To check whether computer is winning or not
-                flag=computerWin();
-                if (flag==1) break outerloop;
-                flag=blockMove();
-                if (flag==1) {
-                    turn++;
-                    flag=0;
-                    return;
+            } //to check whether game is tie or not
+            flag=checkTie();
+            if (flag!=0) {
+                System.out.println("Nice Play! It's Tie");;
+                break outerloop;
+            }
+            //To check whether computer is winning or not
+            flag=computerWin();
+            if (flag==1) {
+                break outerloop;
+            }
+            //Choosing to block user else opting for number
+            for (int i=1; i<=3; i++) {
+                switch (i) {
+                    case 1: flag=blockMove();
+                        break;
+                    case 2: flag=compCorner();
+                        break;
+                    default: flag=compChooseCenter();
                 }
-                flag=cornerChoosen();
                 if (flag==1) {
                     turn++;
                     flag=0;
-                    return;
-                }
-                flag=compChooseCenter();
-                if (flag==1) {
-                    turn++;
-                    flag=0;
-                    return;
+                    break;
                 }
             }
         }
     }
-
 
 }
